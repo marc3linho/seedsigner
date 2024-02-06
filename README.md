@@ -12,7 +12,6 @@
 * [SeedQR Printable Templates](#seedqr-printable-templates)
 * [Manual Installation Instructions](#manual-installation-instructions)
 
-
 ---------------
 
 # Project Summary
@@ -88,6 +87,7 @@ However, one of the many advantages of the open source software model is that th
 
    
 Download the current Version (0.7.0) software image that is compatible with your  Raspberry Pi Hardware. The Pi Zero 1.3 is the most common and recommended board.
+
 | Board                 | Download Image Link/Name          |
 | --------------------- | --------------------------------- |
 |**[Raspberry Pi Zero 1.3](https://www.raspberrypi.com/products/raspberry-pi-zero/)**      |[`seedsigner_os.0.7.0.pi0.img`](https://github.com/SeedSigner/seedsigner/releases/download/0.7.0/seedsigner_os.0.7.0.pi0.img)      |
@@ -110,26 +110,25 @@ Once the files have all finished downloading, follow the steps below to verify t
 
 [Our previous software versions are available here](https://github.com/SeedSigner/seedsigner/releases). Choose a specific version and then expand the *Assets* sub-heading to display the .img file binary and also the 2 associated signature files. **Note:** The prior version files will have lower numbers than the scripts and examples provided in this document, but the naming format will be the same, so you can edit them as required for signature verification etc.   
 
-
 ## Verifying that the downloaded files are authentic (optional but highly recommended!)
 
 You can quickly verify that the software you just downloaded is both authentic and unaltered, by following these instructions.
 We assume you are running the commands from a computer where both [GPG](https://gnupg.org/download/index.html) and [shasum](https://command-not-found.com/shasum) are already installed, and that you also know [how to navigate on a terminal](https://terminalcheatsheet.com/guides/navigate-terminal). 
 
-
 ### Step 1. Verify that the signature (.sig) file is genuine:
 
 Run GPG's *fetch-keys* command to import the SeedSigner projects public key from the popular online keyserver called *Keybase.io*, into your computers *keychain*. 
 
-
 ```
 gpg --fetch-keys https://keybase.io/seedsigner/pgp_keys.asc
 ```
+
 The result should confirm that 1 key was *either* imported or updated. *Ignore* any key ID's or email addresses shown.
 
 ![SS - Fetchkeys-Keybase PubKey import with Fingerprint shown (New import or update of the key)v3-100pct](https://user-images.githubusercontent.com/91296549/221334414-adc3616c-462e-490e-8492-3dfee367d13a.jpg)  
 
 Next, you will run the *verify* command on the signature (.sig) file. (*Verify* must be run from inside the same folder that you downloaded the files into earlier. The `*`'s in this command will auto-fill the version from your current folder, so it should be copied and pasted as-is.)   
+
 ```
 gpg --verify seedsigner.0.7.*.sha256.txt.sig
 ```
@@ -169,8 +168,6 @@ Now to determine ***who*** the Public key ID belongs to: Goto [Keybase.io/SeedSi
 <BR>
 ![SS - Keybase Website PubKey visual matching1_Cropped-80pct](https://user-images.githubusercontent.com/91296549/215326193-97c84e35-5570-4e52-bf3f-e86d367c8908.jpg)
 
-
-
 **You must now *manually* compare: The 16 character fingerprint ID (as circled in red above) to, those *rightmost* 16 characters from your *verify* command.** 
 
 **If they match exactly, then you have successfully confirmed that your .sig file is authentically from the SeedSigner Project!**
@@ -191,7 +188,6 @@ Once you have used one of these methods, you will know if the Public Key stored 
 <br>
 
 If the two ID's do *not* match, then you must stop here immediately. Do not continue. Contact us for assistance in the Telegram group address above.
-
 <br>
 
 ### Step 2. Verifying that the *software images/binaries* are genuine
@@ -200,36 +196,50 @@ Now that you have confirmed that you do have the real SeedSigner Project's Publi
 (Prior to version 0.6.0  , your verify command will check the .zip file which contains the binary files.)
 
  **On Linux or OSX:** Run this command
+
 ```
 shasum -a 256 --ignore-missing --check seedsigner.0.7.*.sha256.txt  
 ```
 
-**On Windows (inside Powershell):** Run this command
-```
-CertUtil -hashfile  seedsigner_os.0.7.0.Insert_Your_Pi_Models_binary_here_For_Example_pi02w.img SHA256 
-```
-On Windows, you must then manually compare the resulting file hash value to the corresponding hash value shown inside the .SHA256 cleartext file.
- <BR>
+After entering the command, it should display:
 
-Wait up to 30 seconds for the command to complete, and it should display:
 ```
 seedsigner_os.0.7.x.[Your_Pi_Model_For_Example:pi02w].img: OK
 ```
+
 **If you receive the "OK" message** for your **seedsigner_os.0.7.x.[Your_Pi_Model_For_Example:pi02w].img file**, as shown above, then your verification is fully complete!  
-**All of your downloaded files have now been confirmed as both authentic and unaltered!** You can proceed to create/write your MicroSD card😄😄 !!     
+**All of your downloaded files have now been confirmed as both authentic and unaltered!** 
+
+<br> 
+
+**On Windows (inside Powershell):** Run this command
+
+```
+CertUtil -hashfile  seedsigner_os.0.7.0.Insert_Your_Pi_Models_binary_here_For_Example_pi02w.img SHA256 
+```
+
+Display the hashes contained in the .sha256 manifest file:
+
+```
+type seedsigner*.sha256
+```
+
+Find the hash for the image you downloaded and compare against your calculated result above. If the two values match (uppercase vs lowercase does not matter), then you know you have downloaded an authentic release image.
+
+ <BR>
+
+**You can proceed to create/write your MicroSD card 😄 !!**     
 
 If your file result shows "FAILED", then you must stop here immediately. Do not continue. Contact us for assistance at  the Telegram group address above.
-
 <BR>
 
 Please recognize that this process can only validate the software to the extent that the entity that first published the key is an honest actor, and their private key is not compromised or somehow being used by a malicious actor.
 <BR>
-<BR>
-
 
 ## Writing the software onto your MicroSD card
 
 To write the SeedSigner software onto your MicroSD card, there are a few options available:   
+
 | Application              | Description                                                                                                                                                  | Platform and official Source                                                         |
 |--------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------|
 | Balena Etcher            | The application is called Etcher, and the company that wrote it is called Balena.  Hence *Etcher by Balena* or *Balena Etcher*                                                  | [Available for Windows, Mac and Linux](https://www.balena.io/etcher#download-etcher) |
@@ -250,9 +260,6 @@ If the one application fails for you, then please try again using our other reco
 Advanced users may want to try the Linux/MacOS *DD* command instead of using Etcher or Pi Imager, however, a reminder is given that DD can overwrite the wrong disk if you are not careful !
 #### **Specific considerations for Windows users:**
 Use the Pi imager software as your first choice on Windows. Windows can sometimes flag the writing of a MicroSD as risky behaviour and hence it may prevent this activity. If this happens, your writing/flashing will fail, hang or wont even begin, in which case you should to try to run the Etcher/Pi-Imager app "As administrator", (right-click and choose that option). It can also be blocked by windows security in some cases, so If you have the (non-default) *Controlled Folder Access* option set to active, try turning that *off* temporarily. 
-
-
-
 
 ---------------
 
@@ -306,8 +313,6 @@ CompactSeedQR templates:
 * [Baseball card template: 12-word Compact SeedQR (21x21)](docs/seed_qr/printable_templates/trading_card_21x21_w12words.pdf)
 * [Baseball card template: 24-word Compact SeedQR (25x25)](docs/seed_qr/printable_templates/trading_card_25x25_w24words.pdf)
 
-
-
 2-sided SeedQR templates - 8 per sheet
 Printing settings - (2-sided)("flip on long edge")("Actual Size")
 If printing on cardstock, adjust your printer settings via its control panel
@@ -321,6 +326,7 @@ Letter templates(8.5in * 11in):
 * [21x21 - stores 12-word seeds ONLY in CompactSeedQR format ONLY](docs/seed_qr/printable_templates/21x21_letter_trading_card_2sided.pdf)
 * [25x25 - stores 12-word or 24 word seeds depending on format](docs/seed_qr/printable_templates/25x25_letter_trading_card_2sided.pdf)
 * [29x29 - stores 24-word seeds ONLY as plaintext SeedQR format ONLY](docs/seed_qr/printable_templates/29x29_letter_trading_card_2sided.pdf)
+
 ---------------
 
 # Manual Installation Instructions
